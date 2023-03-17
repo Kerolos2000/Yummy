@@ -280,7 +280,7 @@ $("#Ingredients").click(() => {
         cartoona += `
         <div class="all-cards all-cards1 text-center col-md-6 col-lg-4 col-xxl-3">
           <div class="float-div">
-          <i class="fa-solid fa-house-laptop fa-4x"></i>
+          <i class="fa-solid fa-drumstick-bite fa-4x"></i>
           <h2>${res[i].strIngredient}</h2>
           </div>
         </div> 
