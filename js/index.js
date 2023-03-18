@@ -374,7 +374,7 @@ $("#ContactUs").click(() => {
       );
       reg(/^01[0125]\d{8}$/, 2);
       reg(/^([1-9]\d?|100)$/, 3);
-      reg(/^.{7,}[A-Z1-9](.*)?$/, 4);
+      reg(/^[a-z]+[a-zA-Z0-9]+\w{7,}$/, 4);
       // to disabled button untill inputs be valid
       if (
         reg(/^[a-z]{1,9}$/, 0) &&
@@ -384,7 +384,7 @@ $("#ContactUs").click(() => {
         ) &&
         reg(/^01[0125]\d{8}$/, 2) &&
         reg(/^([1-9]\d?|100)$/, 3) &&
-        reg(/^.{7,}[A-Z1-9](.*)?$/, 4)
+        reg(/^[a-z]+[a-zA-Z0-9]+\w{7,}$/, 4)
       ) {
         submit.removeAttribute("disabled");
       } else {
