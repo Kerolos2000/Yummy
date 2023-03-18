@@ -1,44 +1,49 @@
-$mainColor: #0d0d0d;
-$secondaryColor: #f2f2f2;
+:root {
+  --mainColor: #0d0d0d;
+  --secondaryColor: #ebb46b;
+  --secondaryColor75: #ebb46bbf;
+}
+.light {
+  --mainColor: #ebb46b;
+  --secondaryColor: #0d0d0d;
+  --secondaryColor75: #0d0d0dbf;
+}
 
 // shared
+* {
+  @media (max-width: 250px) {
+    font-size: 1rem !important;
+  }
+}
 ::selection {
-  background-color: $secondaryColor;
-  color: $mainColor;
+  background-color: var(--secondaryColor);
+  color: var(--mainColor);
 }
 // style scrollbar
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: $secondaryColor;
+  background-color: var(--secondaryColor);
 }
 ::-webkit-scrollbar-track {
-  background-color: $mainColor;
+  background-color: var(--mainColor);
 }
 body {
   min-height: 100vh;
   font-family: "Roboto", sans-serif;
   font-weight: 600;
-  color: $secondaryColor;
-  background-color: $mainColor;
+  color: var(--secondaryColor);
+  background-color: var(--mainColor);
+  transition: 0.5s;
 }
 a {
   text-decoration: none;
-  color: $secondaryColor;
-}
-#inputX{
-  background-color: transparent;
-  border: 2px solid $secondaryColor;
-  box-shadow: none;
-  color: $secondaryColor;
-  &::placeholder{
-    color: #808080;
-  }
+  color: var(--secondaryColor);
 }
 
 section {
-  margin: 2rem 0;
+  padding: 2rem 0;
 }
 
 .show-loader {
@@ -49,7 +54,7 @@ section {
   width: 100%;
   top: 0;
   left: 0;
-  background-color: $mainColor;
+  background-color: var(--mainColor);
   height: 100vh;
   display: flex;
   align-items: center;
@@ -171,6 +176,20 @@ section {
   }
 }
 
+#inputX,
+input {
+  background-color: transparent;
+  box-shadow: none;
+  caret-color: var(--secondaryColor);
+  color: var(--secondaryColor);
+  border: 1px solid var(--secondaryColor);
+  font-size: 1.2rem;
+  font-weight: 900;
+  &::placeholder {
+    color: var(--secondaryColor);
+  }
+}
+
 // sidebar
 #Nav {
   position: absolute;
@@ -188,7 +207,7 @@ section {
     height: 100%;
     padding: 10px;
     backdrop-filter: blur(50px);
-    background: $mainColor;
+    background: var(--mainColor);
     &.nav-show {
       transform: translateX(0%);
     }
@@ -204,7 +223,7 @@ section {
       right: 0;
       z-index: 9;
       transform: translateX(100%);
-      background: $secondaryColor;
+      background: var(--secondaryColor);
       #nav-logo {
         img {
           width: 50px;
@@ -231,7 +250,7 @@ section {
             span:first-child,
             span:last-child {
               top: 6px;
-              background-color: $mainColor;
+              background-color: var(--mainColor);
             }
             span:first-child {
               transform: rotate(45deg);
@@ -241,7 +260,7 @@ section {
             }
           }
           span {
-            background-color: $mainColor;
+            background-color: var(--mainColor);
             height: 3px;
             position: absolute;
             width: 100%;
@@ -273,7 +292,7 @@ section {
     .icon {
       width: fit-content;
       svg {
-        color: $mainColor;
+        color: var(--mainColor);
         transition: 0.5s;
         opacity: 0.6;
       }
@@ -284,7 +303,7 @@ section {
       padding: 10px;
       .icon {
         svg {
-          color: $secondaryColor;
+          color: var(--secondaryColor);
           transition: 0.5s;
           opacity: 0.6;
           cursor: pointer;
@@ -308,9 +327,40 @@ section {
           padding: 5px;
           transition: 0.5s;
           opacity: 0.6;
+          &.active,
           &:hover {
             opacity: 1;
           }
+          .ToggleBtn {
+            width: 75px;
+            height: 30px;
+            background: var(--secondaryColor);
+            border-radius: 25px;
+            position: relative;
+            transition: 0.5s;
+            box-shadow: inset 5px -5px 20px -5px #363636;
+            .circle {
+              cursor: pointer;
+              position: absolute;
+              background: var(--mainColor);
+              width: 25px;
+              height: 25px;
+              margin: 0 5px;
+              top: 50%;
+              left: 0%;
+              border-radius: 50%;
+              transform: translate(0, -50%);
+              transition: 0.5s;
+              box-shadow: inset -5px 5px 20px -5px #363636;
+            }
+            .light {
+              left: 100%;
+              transform: translate(calc(-100% - 10px), -50%);
+            }
+          }
+        }
+        .nav-linkX {
+          opacity: 1;
         }
       }
       .icons-text {
@@ -329,10 +379,10 @@ section {
     }
 
     @media (max-width: 991px) {
-      background-color: #f2f2f2;
-      color: #0d0d0d;
+      background-color: var(--secondaryColor);
+      color: var(--mainColor);
       .icon-main .icon svg {
-        color: #0d0d0d;
+        color: var(--mainColor);
       }
       #nav-bars {
         top: 25%;
@@ -349,7 +399,7 @@ section {
 // main sec
 #main {
   .container {
-    #searchInputs{
+    #searchInputs {
       display: none;
     }
     .row {
@@ -368,12 +418,66 @@ section {
             height: 100%;
             top: 100%;
             left: 0;
-            background-color: #f2f2f2e6;
-            color: $mainColor;
+            background-color: var(--secondaryColor75);
+            backdrop-filter: blur(5px);
+            color: var(--mainColor);
             padding: 10px;
             display: flex;
             align-items: center;
             transition: 0.5s;
+          }
+        }
+      }
+      #ContactUsForm {
+        min-height: calc(100vh - 4rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        display: none;
+        .row {
+          .form-floating {
+            input {
+              background-color: transparent;
+              box-shadow: none;
+              caret-color: var(--secondaryColor);
+              color: var(--secondaryColor);
+              border: 1px solid var(--secondaryColor);
+              font-size: 1.2rem;
+              font-weight: 900;
+            }
+            .inValid {
+              display: none;
+              margin: 5px 0 0 0;
+            }
+          }
+          .form-check {
+            padding: 0;
+            display: flex;
+            align-items: center;
+          }
+          .form-check-input {
+            padding: 0;
+            margin: 0;
+            background-color: var(--secondaryColor);
+            box-shadow: none;
+            border: 1px solid var(--secondaryColor);
+          }
+          .form-check-label {
+            margin-inline-start: 5px;
+            user-select: none;
+          }
+
+          button {
+            background-color: var(--secondaryColor);
+            color: var(--mainColor);
+            border: 2px solid var(--secondaryColor);
+            font-size: 1rem;
+            font-weight: 900;
+            transition: 0.5s;
+            &:hover {
+              background-color: var(--mainColor);
+              color: var(--secondaryColor);
+            }
           }
         }
       }
@@ -387,7 +491,7 @@ section {
   z-index: 9;
   width: 100%;
   height: auto;
-  background: $mainColor;
+  background: var(--mainColor);
   top: 0;
   left: 0;
   margin: 0;
@@ -422,63 +526,3 @@ section {
     }
   }
 }
-
-
-
-
-
-
-// $("#loader").fadeIn(10, function () {
-//   $("#loader").fadeOut(1000);
-// });
-// showAndHide($("#details"), $("#main"));
-// // to get strMeasure
-// let temp1 = "";
-// for (let j = 1; j <= 20; j++) {
-//   if (eval(`res[i].strMeasure${j}`).trim() != "") {
-//     temp1 += `<li class="alert alert-info m-2 p-1">
-//               ${eval(`res[i].strMeasure${j}`)} ${eval(
-//       `res[i].strIngredient${j}`
-//     )}
-//             </li>`;
-//   }
-// }
-// // to get strTags
-// let temp2 = "";
-// if (res[i].strTags) {
-//   temp2 = "<h3>Tags :</h3>";
-//   let strTagsArr = res[i].strTags.split(",");
-//   for (let n = 0; n < strTagsArr.length; n++) {
-//     temp2 += `<li class="alert alert-warning m-2 p-1">${strTagsArr[
-//       n
-//     ].trim()}</li>`;
-//   }
-// }
-// // show data into details-div
-// $("#details-div").html(
-//   `
-//   <div class="col-md-5 mb-2 left">
-//     <div class="img">
-//       <img src="${res[i].strMealThumb}" class="img-fluid mb-3" alt="">
-//       <h3>${res[i].strMeal}</h3>
-//     </div>
-//   </div>
-//   <div class="col-md-7 right">
-//     <h2>Instructions</h2>
-//     <p class=" fw-normal">${res[i].strInstructions}</p>
-//     <h3>Area : ${res[i].strArea}</h3>
-//     <h3>Category : ${res[i].strCategory}</h3>
-//     <h3>Recipes :</h3>
-//     <ul class="list-unstyled d-flex flex-wrap">
-//       ${temp1}
-//     </ul>
-//     <ul class="list-unstyled d-flex flex-wrap  align-items-center">
-//       ${temp2}
-//     </ul>
-//     <div>
-//       <a href="${res[i].strSource}" target="_blnck" class=" mx-1 btn btn-sm btn-success">Source</a>
-//       <a href="${res[i].strYoutube}" target="_blnck" class=" mx-1 btn btn-sm btn-danger">Youtube</a>
-//     </div>
-//   </div>
-//   `
-// );

@@ -1,3 +1,4 @@
+"use strict";
 // Nav
 function animationNavLink() {
   let navLink = $(".nav-link");
@@ -32,6 +33,29 @@ function toggleNav() {
   // .nav-link animation
   animationNavLink();
 }
+// change theme (dark & light mode) by toggle button
+let circle = document.querySelector(".circle");
+circle.onclick = function () {
+  if (document.body.classList.contains("light")) {
+    changeClassLight(false);
+  } else {
+    changeClassLight(true);
+  }
+};
+function changeClassLight(el) {
+  if (el) {
+    document.body.classList.add("light");
+    circle.classList.add("light");
+    localStorage.setItem("siteMode", "light");
+  } else {
+    document.body.classList.remove("light");
+    circle.classList.remove("light");
+    localStorage.setItem("siteMode", "dark");
+  }
+}
+if (localStorage.getItem("siteMode") == "light") {
+  changeClassLight(true);
+}
 
 // this function responsible for show and hide details section
 function showAndHide(show, hide) {
@@ -52,10 +76,9 @@ function getAPI(url) {
   fetch(url)
     .then((response) => response.json())
     .then((response) => {
-      console.log(response);
       hideLoader();
       let res = response.meals;
-      if (res.length > 0) {
+      if (res) {
         let cartoona = "";
         for (let i = 0; i < res.length; i++) {
           cartoona += `
@@ -84,7 +107,7 @@ function getAPI(url) {
           });
         }
       } else {
-        $("#mainMeals").html("");
+        $("#mainMeals").html("<h2>No Data to Show</h2>");
       }
     });
 }
@@ -96,7 +119,6 @@ function detailsAPI(url) {
     .then((response) => response.json())
     .then((response) => {
       let res = response.meals[0];
-      console.log(res);
       $("#loader").fadeIn(10, function () {
         $("#loader").fadeOut(1000);
       });
@@ -160,13 +182,23 @@ function cleanMainMeals() {
 
 // navLink clicks
 $(".nav-link").click(function () {
-  showLoader();
-  hideLoader();
-  toggleNav();
-  cleanMainMeals();
-  showAndHide($("#main"), $("#details"));
-  if (this.innerHTML !== "Search") {
-    $("#searchInputs").css("display", "none");
+  if (!this.classList.contains("nav-linkX")) {
+    showLoader();
+    hideLoader();
+    toggleNav();
+    cleanMainMeals();
+    showAndHide($("#main"), $("#details"));
+    if (this.innerHTML !== "Search") {
+      $("#searchInputs").css("display", "none");
+    }
+    if (this.innerHTML != "Contact Us") {
+      $("#ContactUsForm").css("display", "none");
+    }
+    if (this.innerHTML == "Home") {
+      getAPI("https://www.themealdb.com/api/json/v1/1/search.php?s=");
+    }
+    $(".nav-link").removeClass("active");
+    this.classList.add("active");
   }
 });
 
@@ -185,12 +217,13 @@ $("#Search").click(() => {
     $(".inputX1").val("");
     let inputValue = $(".inputX2").val();
     showLoader();
-    getAPI(
-      `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`
-    );
     if ($(".inputX2").val() == "") {
       getAPI(
         `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`
+      );
+    } else {
+      getAPI(
+        `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`
       );
     }
   });
@@ -204,7 +237,6 @@ $("#Categories").click(() => {
       hideLoader();
       let res = response.categories;
       let cartoona = "";
-      console.log(res);
       for (let i = 0; i < res.length; i++) {
         cartoona += `
             <div data-id="${res[i].strCategory}" class="all-cards all-cards2 col-md-6 col-lg-4 col-xxl-3">
@@ -243,7 +275,6 @@ $("#Area").click(() => {
       let res = response.meals;
       let cartoona = "";
       for (let i = 0; i < res.length; i++) {
-        console.log(res[i].strArea);
         cartoona += `
         <div class="all-cards all-cards1 text-center col-md-6 col-lg-4 col-xxl-3">
           <div class="float-div">
@@ -273,7 +304,6 @@ $("#Ingredients").click(() => {
   fetch(`https://www.themealdb.com/api/json/v1/1/list.php?i=list`)
     .then((response) => response.json())
     .then((response) => {
-      console.log(response);
       let res = response.meals;
       let cartoona = "";
       for (let i = 0; i < 20; i++) {
@@ -299,4 +329,81 @@ $("#Ingredients").click(() => {
         }
       }
     });
+});
+
+// Contact Us
+$("#ContactUs").click(() => {
+  $("#ContactUsForm").css("display", "flex");
+  const inputs = document.querySelectorAll(".formInput");
+  const inValid = document.querySelectorAll(".inValid");
+  const submit = document.querySelector("#submit");
+  const exampleCheck1 = document.querySelector("#exampleCheck1");
+  const formCheckLabel = document.querySelector(".form-check-label");
+
+  exampleCheck1.onclick = () => {
+    if (exampleCheck1.checked) {
+      formCheckLabel.innerHTML = "Hide Password";
+      inputs[4].type = "text";
+      inputs[5].type = "text";
+    } else {
+      formCheckLabel.innerHTML = "Show Password";
+      inputs[4].type = "password";
+      inputs[5].type = "password";
+    }
+  };
+
+  submit.setAttribute("disabled", "");
+  for (let i = 0; i < inputs.length; i++) {
+    // check if re password is valid or not
+    inputs[5].addEventListener("input", () => {
+      if (inputs[5].value != inputs[4].value) {
+        inValid[5].style.display = "block";
+      } else {
+        inValid[5].style.display = "none";
+      }
+    });
+    //
+    inputs[i].addEventListener("input", () => {
+      if (inputs[5].value == inputs[4].value) {
+        inValid[5].style.display = "none";
+      }
+      reg(/^[a-z]{1,9}$/, 0);
+      reg(
+        /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+        1
+      );
+      reg(/^01[0125]\d{8}$/, 2);
+      reg(/^([1-9]\d?|100)$/, 3);
+      reg(/^.{7,}[A-Z1-9](.*)?$/, 4);
+      // to disabled button untill inputs be valid
+      if (
+        reg(/^[a-z]{1,9}$/, 0) &&
+        reg(
+          /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+          1
+        ) &&
+        reg(/^01[0125]\d{8}$/, 2) &&
+        reg(/^([1-9]\d?|100)$/, 3) &&
+        reg(/^.{7,}[A-Z1-9](.*)?$/, 4)
+      ) {
+        submit.removeAttribute("disabled");
+      } else {
+        submit.setAttribute("disabled", "");
+      }
+      // to prevent another inputs show error msg
+      inputs.forEach((el, index) => {
+        if (el.value == "") {
+          inValid[index].style.display = "none";
+        }
+      });
+    });
+  }
+  function reg(regex, i) {
+    if (regex.test(inputs[i].value)) {
+      inValid[i].style.display = "none";
+      return true;
+    } else {
+      inValid[i].style.display = "block";
+    }
+  }
 });
