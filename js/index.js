@@ -126,7 +126,6 @@ function detailsAPI(url) {
       // to get strMeasure
       let temp1 = "";
       for (let j = 1; j <= 20; j++) {
-        console.log(res.strMeasure[j])
         if (eval(`res.strMeasure${j}`).trim() != "") {
           temp1 += `<li class="alert alert-info m-2 p-1">
               ${eval(`res.strMeasure${j}`)} ${eval(`res.strIngredient${j}`)}
