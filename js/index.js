@@ -126,6 +126,7 @@ function detailsAPI(url) {
       // to get strMeasure
       let temp1 = "";
       for (let j = 1; j <= 20; j++) {
+        console.log(res.strMeasure[j])
         if (eval(`res.strMeasure${j}`).trim() != "") {
           temp1 += `<li class="alert alert-info m-2 p-1">
               ${eval(`res.strMeasure${j}`)} ${eval(`res.strIngredient${j}`)}
@@ -334,6 +335,7 @@ $("#Ingredients").click(() => {
 // Contact Us
 $("#ContactUs").click(() => {
   $("#ContactUsForm").css("display", "flex");
+  
   const inputs = document.querySelectorAll(".formInput");
   const inValid = document.querySelectorAll(".inValid");
   const submit = document.querySelector("#submit");
@@ -356,11 +358,10 @@ $("#ContactUs").click(() => {
   for (let i = 0; i < inputs.length; i++) {
     // check if re password is valid or not
     inputs[5].addEventListener("input", () => {
-      if (inputs[5].value != inputs[4].value) {
-        inValid[5].style.display = "block";
-      } else {
-        inValid[5].style.display = "none";
-      }
+      isPassword()
+    });
+    inputs[4].addEventListener("input", () => {
+      isPassword()
     });
     //
     inputs[i].addEventListener("input", () => {
@@ -384,7 +385,8 @@ $("#ContactUs").click(() => {
         ) &&
         reg(/^01[0125]\d{8}$/, 2) &&
         reg(/^([1-9]\d?|100)$/, 3) &&
-        reg(/^(?=.*[a-z])(?=.*\d).{8,}$/, 4)
+        reg(/^(?=.*[a-z])(?=.*\d).{8,}$/, 4)&&
+        inputs[5].value == inputs[4].value
       ) {
         submit.removeAttribute("disabled");
       } else {
@@ -404,6 +406,13 @@ $("#ContactUs").click(() => {
       return true;
     } else {
       inValid[i].style.display = "block";
+    }
+  }
+  function isPassword(){
+    if (inputs[5].value != inputs[4].value) {
+      inValid[5].style.display = "block";
+    } else {
+      inValid[5].style.display = "none";
     }
   }
 });
