@@ -96,7 +96,6 @@ function getAPI(url) {
             showAndHide($("#main"), $("#details"));
           });
         }
-
         // show and hide details section
         let allCards = document.querySelectorAll(".all-cards1");
         for (let i = 0; i < allCards.length; i++) {
@@ -202,6 +201,14 @@ $(".nav-link").click(function () {
   }
 });
 
+// all Cards Click function
+function allCardsClick(url) {
+  $("#loader").fadeIn(10, function () {
+    $("#loader").fadeOut(1000);
+  });
+  getAPI(url);
+}
+
 // Search
 $("#Search").click(() => {
   $("#searchInputs").css("display", "block");
@@ -251,15 +258,11 @@ $("#Categories").click(() => {
           `;
       }
       $("#mainMeals").html(cartoona);
-
       // show and hide details section
       let allCards = document.querySelectorAll(".all-cards2");
       for (let i = 0; i < allCards.length; i++) {
         allCards[i].addEventListener("click", () => {
-          $("#loader").fadeIn(10, function () {
-            $("#loader").fadeOut(1000);
-          });
-          getAPI(
+          allCardsClick(
             `https://www.themealdb.com/api/json/v1/1/filter.php?c=${res[i].strCategory}`
           );
         });
@@ -287,10 +290,7 @@ $("#Area").click(() => {
         let allCards = document.querySelectorAll(".all-cards");
         for (let i = 0; i < allCards.length; i++) {
           allCards[i].addEventListener("click", () => {
-            $("#loader").fadeIn(10, function () {
-              $("#loader").fadeOut(1000);
-            });
-            getAPI(
+            allCardsClick(
               `https://www.themealdb.com/api/json/v1/1/filter.php?a=${res[i].strArea}`
             );
           });
@@ -319,10 +319,7 @@ $("#Ingredients").click(() => {
         let allCards = document.querySelectorAll(".all-cards");
         for (let i = 0; i < allCards.length; i++) {
           allCards[i].addEventListener("click", () => {
-            $("#loader").fadeIn(10, function () {
-              $("#loader").fadeOut(1000);
-            });
-            getAPI(
+            allCardsClick(
               `https://www.themealdb.com/api/json/v1/1/filter.php?i=${res[i].strIngredient}`
             );
           });
@@ -334,13 +331,11 @@ $("#Ingredients").click(() => {
 // Contact Us
 $("#ContactUs").click(() => {
   $("#ContactUsForm").css("display", "flex");
-  
   const inputs = document.querySelectorAll(".formInput");
   const inValid = document.querySelectorAll(".inValid");
   const submit = document.querySelector("#submit");
   const exampleCheck1 = document.querySelector("#exampleCheck1");
   const formCheckLabel = document.querySelector(".form-check-label");
-
   exampleCheck1.onclick = () => {
     if (exampleCheck1.checked) {
       formCheckLabel.innerHTML = "Hide Password";
@@ -352,17 +347,16 @@ $("#ContactUs").click(() => {
       inputs[5].type = "password";
     }
   };
-
   submit.setAttribute("disabled", "");
   for (let i = 0; i < inputs.length; i++) {
     // check if re password is valid or not
     inputs[5].addEventListener("input", () => {
-      isPassword()
+      isPassword();
     });
     inputs[4].addEventListener("input", () => {
-      isPassword()
+      isPassword();
     });
-    //
+    // check inputs
     inputs[i].addEventListener("input", () => {
       if (inputs[5].value == inputs[4].value) {
         inValid[5].style.display = "none";
@@ -384,7 +378,7 @@ $("#ContactUs").click(() => {
         ) &&
         reg(/^01[0125]\d{8}$/, 2) &&
         reg(/^([1-9]\d?|100)$/, 3) &&
-        reg(/^(?=.*[a-z])(?=.*\d).{8,}$/, 4)&&
+        reg(/^(?=.*[a-z])(?=.*\d).{8,}$/, 4) &&
         inputs[5].value == inputs[4].value
       ) {
         submit.removeAttribute("disabled");
@@ -407,7 +401,7 @@ $("#ContactUs").click(() => {
       inValid[i].style.display = "block";
     }
   }
-  function isPassword(){
+  function isPassword() {
     if (inputs[5].value != inputs[4].value) {
       inValid[5].style.display = "block";
     } else {
